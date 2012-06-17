@@ -1,4 +1,4 @@
 MultiSelectSpinner
 ==================
 
-A spinner control for Android that support multiple selection.
+A spinner control for Android that supports multiple selection.
