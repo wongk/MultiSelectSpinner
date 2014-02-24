@@ -35,6 +35,7 @@ import android.widget.SpinnerAdapter;
  */
 public class MultiSelectSpinner extends Spinner implements OnMultiChoiceClickListener {
     String[] _items = null;
+	Long[] _ids = null;
     boolean[] _selection = null;
     
     ArrayAdapter<String> _proxyAdapter;
@@ -121,6 +122,22 @@ public class MultiSelectSpinner extends Spinner implements OnMultiChoiceClickLis
         Arrays.fill(_selection, false);
     }
     
+	/**
+     * Sets the id foreach item in the spinner.
+     * @param ids
+     */
+	public void settIds(Long[] ids){
+		_ids = ids; 
+	}
+	
+	/**
+     * Sets the id foreach item in the spinner.
+     * @param ids
+     */
+	public void setIds(List<Long> ids) {
+		_ids = ids.toArray(new Long[ids.size()]);
+	}
+	
     /**
      * Sets the selected options based on an array of string.
      * @param selection
@@ -192,6 +209,25 @@ public class MultiSelectSpinner extends Spinner implements OnMultiChoiceClickLis
         return selection;
     }
     
+	/**
+	 * Returns a list of ids, one for each selected item.
+	 * 
+	 * @return
+	 */
+	public List<Long> getSelectedIds() {
+		if(_ids == null)
+			throw new IllegalStateException("This method should only be called if setIds is called");
+		if(_ids.length != _items.length)
+			throw new IllegalStateException("The number of ids should match the number of items");
+		List<Long> selection = new LinkedList<Long>();
+		for (int i = 0; i < _items.length; ++i) {
+			if (_selection[i]) {
+				selection.add(_ids[i]);
+			}
+		}
+		return selection;
+	}
+	
     /**
      * Builds the string for display in the spinner.
      * @return comma-separated list of selected items
